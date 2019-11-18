@@ -39,20 +39,21 @@
     </v-app-bar>
 
     <v-content>
-      <HelloWorld/>
+      <Login/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+//import HelloWorld from './components/HelloWorld';
 //import { AppAUTH } from "./db-init.js";
+import Login from './components/Login';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    Login,
   },
 
   data: () => ({
@@ -62,12 +63,15 @@ export default {
   methods: {
     doSignOut(){
       
+      alert("Sign Out");
       /*AppAUTH.signOut().then(() => {
         this.$router.back();
       });*/
     }
   },
     mounted(){
+
+      alert("Mounted");
       /*AppAUTH.onAuthStateChanged((u) => {
         if(u == null) this.isLoggedIn = false;
         else this.isLoggedIn = true;
