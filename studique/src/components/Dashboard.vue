@@ -1,14 +1,18 @@
 <template>
 <div>
-    <div>
-        <h2>studique</h2>
-    </div>
-    <div id="askForm">
-        <form>
+    <div id="dashboard">
+        <div id="tagColumn">
+        </div>
+        <div id="askForm">
+            
             <h3 id="label" for="question">Question:</h3>
-            <input type="text" v-model="question" id="question"/>
-        </form>
-        <button @click="buttonHandler" id="askButton">Ask</button>
+            <p></p>
+            <textarea  v-model="text" rows="0" max-rows="4" id="question"></textarea>
+            
+            <v-btn color="primary" @click="buttonHandler" id="askButton">Ask</v-btn>
+        </div>
+        <div id="emptyColumn">
+        </div>
     </div>
 </div>
 </template>
@@ -22,15 +26,28 @@ export default {
 </script>
 
 <style scoped>
+
+    #dashboard {
+        display:grid;
+        grid-template-columns: 1fr 4fr 1fr;
+    }
+
     #askForm{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 4fr 1fr ;
+    grid-template-rows: 1fr auto;
     border-bottom: 2px solid gray;
-    margin: 20px;
-    padding: 10px;
-    width: fit-content;
-    height: fit-content;
+    padding: 5px;
+    /* width: fit-content;
+    height: fit-content; */
+    }
+
+    #tagColumn {
+        background: lightgrey;
+    }
+
+    #emptyColumn {
+        background: lightgrey;
     }
 
     #question {
@@ -39,11 +56,8 @@ export default {
         border-color: black;
     }
 
-    #askButton {
-        border-radius: 5px;
+     #askButton {
         margin: 5px;
-        width: fit-content;
-        border: 2px solid gray;
-    }
+    } 
 
 </style>
