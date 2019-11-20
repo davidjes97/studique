@@ -10,12 +10,13 @@
 
           <v-btn color="primary" @click="buttonHandler" id="askButton">Ask</v-btn>
         </div>
-        <div>
+        <div id="cards">
             <v-list-item>
-                <v-card class="mx-auto"
-                max-width="500px"
+                <v-card id="questionCard" class="mx-auto"
+                max-width="1000px"
                 outlined
-                :elevation="3">
+                :elevation="3"
+                >
                 <div id ="username" class="overline mb-4">USER's NAME</div>
                 <v-card-text>
                 <div class="text--primary">
@@ -27,6 +28,7 @@
       </div>
       <div id="emptyColumn"></div>
     </div>
+    <v-footer>2019 studique</v-footer>
   </div>
 </template>
 
@@ -39,10 +41,10 @@ export default {
 </script>
 
 <style scoped>
-
-v-card {
+#questionCard {
     margin: 5px;
     padding: 5px;
+    width: 98%;
 }
 
 #username {
@@ -60,8 +62,6 @@ v-card {
   grid-template-rows: 1fr auto;
   border-bottom: 2px solid gray;
   padding: 5px;
-  /* width: fit-content;
-    height: fit-content; */
 }
 
 #tagColumn {
@@ -80,5 +80,11 @@ v-card {
 
 #askButton {
   margin: 5px;
+}
+
+v-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 </style>
