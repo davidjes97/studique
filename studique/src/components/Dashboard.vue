@@ -28,7 +28,6 @@
       </div>
       <div id="emptyColumn"></div>
     </div>
-    <v-footer>2019 studique</v-footer>
   </div>
 </template>
 
@@ -80,11 +79,5 @@ export default {
 
 #askButton {
   margin: 5px;
-}
-
-v-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
 }
 </style>
