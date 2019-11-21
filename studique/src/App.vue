@@ -1,16 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
           alt="QS"
           class="shrink mr-2"
           contain
-          src= './assets/Q.png'
+          src="./assets/Q.png"
           transition="scale-transition"
           width="40"
         />
@@ -21,34 +17,24 @@
       <v-spacer></v-spacer>
 
       <v-btn @click="doSignOut" v-show="isLoggedIn === false">SignOut</v-btn>
-      <!--<v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>-->
     </v-app-bar>
 
     <v-content>
-      <Dashboard/>
+      <Dashboard />
     </v-content>
-    <v-footer>
-      2019 studique
-      </v-footer>
+    <v-footer>2019 studique</v-footer>
   </v-app>
 </template>
 
 <script>
-import Dashboard from './components/Dashboard';
+import Dashboard from "./components/Dashboard";
 //import { AppAUTH } from "./db-init.js";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    Dashboard,
+    Dashboard
   },
 
   data: () => ({
@@ -56,19 +42,19 @@ export default {
   }),
 
   methods: {
-    doSignOut(){
-      
+    doSignOut() {
+      alert("Attempted Logout");
       /*AppAUTH.signOut().then(() => {
         this.$router.back();
       });*/
     }
   },
-    mounted(){
-      /*AppAUTH.onAuthStateChanged((u) => {
+  mounted() {
+    /*AppAUTH.onAuthStateChanged((u) => {
         if(u == null) this.isLoggedIn = false;
         else this.isLoggedIn = true;
       });*/
-    }
+  }
 };
 </script>
 
