@@ -22,7 +22,7 @@
         <v-divider></v-divider>
         <div id="cards">
           <v-list-item v-for="(myQuestion,pos) in myQuestion.slice().reverse()" :key="pos">
-            <v-card class="questionCard" max-width="1000px" outlined :elevation="3">
+            <v-card class="questionCard" outlined :elevation="3">
               <v-card-subtitle id="username">USER's NAME</v-card-subtitle>
               <v-card-text>
                 <div
