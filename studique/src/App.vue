@@ -39,7 +39,7 @@ export default {
   methods: {
     doSignOut() {
       AppAUTH.signOut().then(() => {
-        this.$router.back();
+        this.$router.push({ path: "/" });
       });
     }
   },

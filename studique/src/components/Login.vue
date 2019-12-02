@@ -49,29 +49,36 @@ export default {
   },
   methods: {
     doSignUp() {
-      AppAUTH.createUserWithEmailAndPassword(this.signUpEmail, this.signUpPassword)
+      if(this.signUpEmail != "" && this.signUpPassword != "" && this.userDisplayName != ""){
+        AppAUTH.createUserWithEmailAndPassword(this.signUpEmail, this.signUpPassword)
         .then(u => {
-               var user = u.user;
-               user.updateProfile({
-                   displayName: this.userDisplayName
-               });
-          this.$router.push({ path: "/Dashboard" });
+            var user = u.user;
+            user.updateProfile({
+                displayName: this.userDisplayName
+            });
+          this.$router.push({ path: "/dashboard" });
+              
         })
         .catch(err => {
           alert("Error " + err);
         });
+      }
+      else{
+          alert("Fill in all fields!");
+      }
     },
     doSignIn() {
       AppAUTH.signInWithEmailAndPassword(this.userEmail, this.userPassword)
         .then( u => {
-          alert("Logging in" +  u.userDisplayName);
-          this.$router.push({ path: "/Dashboard" });
+          alert("Logging in " +  u.userDisplayName);
+          this.$router.push({ path: "/dashboard" });
         })
         .catch(err => {
           alert("Error " + err);
         });
     }
   },
+  
   mounted() {
     AppAUTH.onAuthStateChanged(u => {
       if (u == null) this.isLoggedIn = false;
