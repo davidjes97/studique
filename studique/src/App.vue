@@ -29,12 +29,14 @@
 <script>
 import Dashboard from "./components/Dashboard";
 //import { AppAUTH } from "./db-init.js";
+import Login from './components/Login';
 
 export default {
   name: "App",
 
   components: {
     Dashboard
+    Login,
   },
 
   data: () => ({
