@@ -16,28 +16,21 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn @click="doSignOut" v-show="isLoggedIn === false">SignOut</v-btn>
+      <v-btn @click="doSignOut" v-show="isLoggedIn === true">SignOut</v-btn>
     </v-app-bar>
 
     <v-content>
-      <Dashboard />
+      <router-view/>
     </v-content>
     <v-footer>2019 studique</v-footer>
   </v-app>
 </template>
 
 <script>
-import Dashboard from "./components/Dashboard";
-//import { AppAUTH } from "./db-init.js";
-import Login from './components/Login';
+import { AppAUTH } from "./db-init.js";
 
 export default {
   name: "App",
-
-  components: {
-    Dashboard
-    Login,
-  },
 
   data: () => ({
     isLoggedIn: false
@@ -45,17 +38,16 @@ export default {
 
   methods: {
     doSignOut() {
-      alert("Attempted Logout");
-      /*AppAUTH.signOut().then(() => {
+      AppAUTH.signOut().then(() => {
         this.$router.back();
-      });*/
+      });
     }
   },
   mounted() {
-    /*AppAUTH.onAuthStateChanged((u) => {
+    AppAUTH.onAuthStateChanged((u) => {
         if(u == null) this.isLoggedIn = false;
         else this.isLoggedIn = true;
-      });*/
+      });
   }
 };
 </script>
