@@ -22,8 +22,8 @@
         <v-divider></v-divider>
         <div id="cards">
           <v-list-item v-for="(myQuestion,pos) in myQuestion.slice().reverse()" :key="pos">
-            <v-card class="questionCard" max-width="1000px" outlined :elevation="3">
-              <v-card-subtitle id="username">USER's NAME</v-card-subtitle>
+            <v-card class="questionCard" outlined :elevation="3">
+              <v-card-subtitle id="username">{{myQuestion.user}}</v-card-subtitle>
               <v-card-text>
                 <div
                   class="text--primary"
@@ -33,18 +33,16 @@
                 <v-expansion-panel>
                   <v-expansion-panel-header>Responses</v-expansion-panel-header>
                   <v-expansion-panel-content>
-                    <v-card>
-                      <v-container>
-                        <v-card-subtitle id="username">USER's NAME</v-card-subtitle>
-                        <v-card-text>This is my comment</v-card-text>
-                      </v-container>
-                    </v-card>
-                    <v-card>
-                      <v-container>
-                        <v-card-subtitle id="username">USER's NAME</v-card-subtitle>
-                        <v-card-text>Don't mind me just commenting on this very very very interesting question</v-card-text>
-                      </v-container>
-                    </v-card>
+                    <v-list-item v-for="(myComment, pos) in myQuestion.comments" :key="pos">
+                      <v-card id="commentCard">
+                      <v-card-subtitle id="commentUser">{{myComment.user}}</v-card-subtitle>
+                      <v-card-text>
+                        <div
+                          class="text--primary">
+                          {{myComment.comment}}</div>
+                      </v-card-text>
+                      </v-card>
+                    </v-list-item>
                     <v-card-actions>
                       <v-container fluid>
                         <v-textarea
@@ -76,29 +74,34 @@
 </template>
 
 <script>
-import { AppDB } from "../db-init.js";
+import { AppDB, AppAUTH } from "../db-init.js";
 
 export default {
   data: function() {
     return {
       question: "",
-      comment: "",
       commentInput: "",
-      myQuestion: []
+      myQuestion: [],
+      myComment: []
     };
   },
   methods: {
     yourButtonHandler() {
-      AppDB.ref("posts")
+      if(this.question != "") {
+        AppDB.ref("posts")
         .push()
         .set({
+          user: AppAUTH.currentUser.displayName,
           question: this.question
         });
+      }
+      
     },
 
     fbAddHandler(snapshot) {
       const item = snapshot.val();
       this.myQuestion.push({ ...item, mykey: snapshot.key });
+      this.myComment.push({...item, mykey: snapshot.key});
     },
     fbRemoveListener(snapshot) {
       /* snapshot.key will hold the key of the item being REMOVED */
@@ -112,12 +115,16 @@ export default {
       });
     },
     addComment(questionID) {
-      AppDB.ref("posts")
+      if(this.commentInput != ""){
+        AppDB.ref("posts")
         .child(questionID)
+        .child("comments")
         .push()
         .set({
+          user: AppAUTH.currentUser.displayName,
           comment: this.commentInput
         });
+      } 
     }
   },
   mounted() {
@@ -201,6 +208,8 @@ export default {
     grid-template-rows: 1fr auto;
     border-bottom: 2px solid gray;
     padding: 5px;
+    position:sticky;
+    top: 0;
   }
   #dashboard {
     display: grid;

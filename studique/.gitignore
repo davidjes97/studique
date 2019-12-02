@@ -2,6 +2,9 @@
 node_modules
 /dist
 
+#Spicy Files
+route-init.js
+
 # local env files
 .env.local
 .env.*.local

@@ -16,12 +16,12 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn @click="doSignOut" v-show="isLoggedIn === false">SignOut</v-btn>
+      <v-btn @click="doSignOut" v-show="isLoggedIn === true">SignOut</v-btn>
     </v-app-bar>
 
     <v-content>
 
-      <Login/>
+      <router-view/>
 
     </v-content>
     <v-footer>2019 studique</v-footer>
@@ -30,22 +30,12 @@
 
 <script>
 
+import { AppAUTH } from "./db-init.js";
 
-import Dashboard from "./components/Dashboard";
-
-//import { AppAUTH } from "./db-init.js";
-import Login from './components/Login';
 
 export default {
   name: "App",
 
-  components: {
-
-    Login,
-
-    Dashboard
-
-  },
 
   data: () => ({
     isLoggedIn: false
@@ -53,24 +43,18 @@ export default {
 
   methods: {
 
-    doSignOut(){
-      
-      alert("Sign Out");
-
-      /*AppAUTH.signOut().then(() => {
-        this.$router.back();
-      });*/
+    doSignOut() {
+      AppAUTH.signOut().then(() => {
+        this.$router.push({ path: "/" });
+      });
     }
   },
-
-    mounted(){
-
-      alert("Mounted");
-      /*AppAUTH.onAuthStateChanged((u) => {
+  mounted() {
+    AppAUTH.onAuthStateChanged((u) => {
 
         if(u == null) this.isLoggedIn = false;
         else this.isLoggedIn = true;
-      });*/
+      });
   }
 };
 </script>
