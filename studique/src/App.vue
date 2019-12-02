@@ -20,21 +20,31 @@
     </v-app-bar>
 
     <v-content>
-      <Dashboard />
+
+      <Login/>
+
     </v-content>
     <v-footer>2019 studique</v-footer>
   </v-app>
 </template>
 
 <script>
+
+
 import Dashboard from "./components/Dashboard";
+
 //import { AppAUTH } from "./db-init.js";
+import Login from './components/Login';
 
 export default {
   name: "App",
 
   components: {
+
+    Login,
+
     Dashboard
+
   },
 
   data: () => ({
@@ -42,15 +52,22 @@ export default {
   }),
 
   methods: {
-    doSignOut() {
-      alert("Attempted Logout");
+
+    doSignOut(){
+      
+      alert("Sign Out");
+
       /*AppAUTH.signOut().then(() => {
         this.$router.back();
       });*/
     }
   },
-  mounted() {
-    /*AppAUTH.onAuthStateChanged((u) => {
+
+    mounted(){
+
+      alert("Mounted");
+      /*AppAUTH.onAuthStateChanged((u) => {
+
         if(u == null) this.isLoggedIn = false;
         else this.isLoggedIn = true;
       });*/
