@@ -1,6 +1,8 @@
 <template>
   <div class="form">
-    <v-card id="signUpInCard">
+      <v-spacer></v-spacer>
+      <p></p>
+    <v-card class="signUpInCard">
       <tabs>
         <tab title="Sign Up">
           <v-text-field label="Your Full Name" v-model="userDisplayName"></v-text-field>
@@ -79,11 +81,9 @@ export default {
 </script>
 <style src="vue-slim-tabs/themes/default.css">
 .form {
-  width: 50vw;
+  display: grid;
+  grid-template-columns: 1fr 6fr 1fr;
+  width: 80%;
   border: 1px solid black;
-}
-#signUpInCard {
-  padding: 5px;
-  margin: 5px;
 }
 </style>
