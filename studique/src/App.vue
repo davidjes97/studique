@@ -20,23 +20,29 @@
     </v-app-bar>
 
     <v-content>
+
       <router-view/>
+
     </v-content>
     <v-footer>2019 studique</v-footer>
   </v-app>
 </template>
 
 <script>
+
 import { AppAUTH } from "./db-init.js";
+
 
 export default {
   name: "App",
+
 
   data: () => ({
     isLoggedIn: false
   }),
 
   methods: {
+
     doSignOut() {
       AppAUTH.signOut().then(() => {
         this.$router.push({ path: "/" });
@@ -45,6 +51,7 @@ export default {
   },
   mounted() {
     AppAUTH.onAuthStateChanged((u) => {
+
         if(u == null) this.isLoggedIn = false;
         else this.isLoggedIn = true;
       });
