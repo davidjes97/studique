@@ -63,7 +63,8 @@ export default {
     },
     doSignIn() {
       AppAUTH.signInWithEmailAndPassword(this.userEmail, this.userPassword)
-        .then(function() {
+        .then( u => {
+          alert("Logging in" +  u.userDisplayName);
           this.$router.push({ path: "/Dashboard" });
         })
         .catch(err => {

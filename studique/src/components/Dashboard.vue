@@ -208,6 +208,8 @@ export default {
     grid-template-rows: 1fr auto;
     border-bottom: 2px solid gray;
     padding: 5px;
+    position:sticky;
+    top: 0;
   }
   #dashboard {
     display: grid;
