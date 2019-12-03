@@ -17,18 +17,25 @@
               rows="1"
             ></v-textarea>
           </v-container>
-          <v-btn color="primary" id="askButton" @click.native="yourButtonHandler">Ask</v-btn>
+          <v-btn color="primary" id="askButton" @click.native="askButton">Ask</v-btn>
         </div>
         <v-divider></v-divider>
         <div id="cards">
           <v-list-item v-for="(myQuestion,pos) in myQuestion.slice().reverse()" :key="pos">
             <v-card class="questionCard" outlined :elevation="3">
-              <v-card-subtitle id="username">{{myQuestion.user}}</v-card-subtitle>
+              <v-btn color="red" id="deleteButton" @click="deletePost(myQuestion.mykey)" small icon rounded right>X</v-btn>
+              <v-card-subtitle id="username">{{myQuestion.user}}
+                
+              </v-card-subtitle>
+              
               <v-card-text>
                 <div
                   class="text--primary"
-                >{{myQuestion.question}}</div>
+                >{{myQuestion.question}}
+                </div>
+                
               </v-card-text>
+              
               <v-expansion-panels>
                 <v-expansion-panel>
                   <v-expansion-panel-header>Responses</v-expansion-panel-header>
@@ -86,7 +93,7 @@ export default {
     };
   },
   methods: {
-    yourButtonHandler() {
+    askButton() {
       if(this.question != "") {
         AppDB.ref("posts")
         .push()
@@ -107,12 +114,12 @@ export default {
       /* snapshot.key will hold the key of the item being REMOVED */
       this.myQuestion = this.myQuestion.filter(z => z.mykey != snapshot.key);
     },
-    remove() {
-      this.userSelections.forEach(victimKey => {
+    deletePost(questionKey) {
+      if(confirm("Remove this question?")){
         AppDB.ref("posts")
-          .child(victimKey)
+          .child(questionKey)
           .remove();
-      });
+      }
     },
     addComment(questionID) {
       if(this.commentInput != ""){
@@ -194,7 +201,7 @@ export default {
   margin-top: 20px;
 }
 
-@media only screen and (max-width: 1026px) {
+@media only screen and (max-width: 600px) {
   #emptyColumn {
     display: none;
   }
@@ -214,6 +221,9 @@ export default {
   #dashboard {
     display: grid;
     grid-template-columns: auto;
+  }
+  #deleteButton {
+    justify-content: right;
   }
 }
 </style>

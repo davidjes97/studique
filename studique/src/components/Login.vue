@@ -4,6 +4,15 @@
       <p></p>
     <v-card class="signUpInCard">
       <tabs>
+        <tab title="Sign In">
+          <v-text-field label="Your Email" v-model="userEmail"></v-text-field>
+          <v-text-field type="password" label="Password" v-model="userPassword"></v-text-field>
+          <v-container v-show="isLoggedIn === false">
+            <v-row justify="end">
+              <v-btn @click="doSignIn">SignIn</v-btn>
+            </v-row>
+          </v-container>
+        </tab>
         <tab title="Sign Up">
           <v-text-field label="Your Full Name" v-model="userDisplayName"></v-text-field>
           <v-text-field label="Your Email" v-model="signUpEmail"></v-text-field>
@@ -14,15 +23,7 @@
             </v-row>
           </v-container>
         </tab>
-        <tab title="Sign In">
-          <v-text-field label="Your Email" v-model="userEmail"></v-text-field>
-          <v-text-field type="password" label="Password" v-model="userPassword"></v-text-field>
-          <v-container v-show="isLoggedIn === false">
-            <v-row justify="end">
-              <v-btn @click="doSignIn">SignIn</v-btn>
-            </v-row>
-          </v-container>
-        </tab>
+        
       </tabs>
     </v-card>
   </div>
