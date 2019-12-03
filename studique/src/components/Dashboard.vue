@@ -23,9 +23,8 @@
         <div id="cards">
           <v-list-item v-for="(myQuestion,pos) in myQuestion.slice().reverse()" :key="pos">
             <v-card class="questionCard" outlined :elevation="3">
-              <v-btn color="red" id="deleteButton" @click="deletePost(myQuestion.mykey)" small icon rounded right>X</v-btn>
               <v-card-subtitle id="username">{{myQuestion.user}}
-                
+                <v-btn color="red" id="deleteButton" @click="deletePost(myQuestion.mykey)" small icon rounded right>X</v-btn>
               </v-card-subtitle>
               
               <v-card-text>
