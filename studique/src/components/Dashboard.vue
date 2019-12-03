@@ -24,7 +24,7 @@
           <v-list-item v-for="(myQuestion,pos) in myQuestion.slice().reverse()" :key="pos">
             <v-card class="questionCard" outlined :elevation="3">
               <v-card-subtitle id="username">{{myQuestion.user}}
-                <v-btn color="red" id="deleteButton" @click="deletePost(myQuestion.mykey)" small icon rounded right>X</v-btn>
+                <v-btn v-if="myQuestionID(myQuestion.userId)" color="red" id="deleteButton" @click="deletePost(myQuestion.mykey)" small icon rounded right>X</v-btn>
               </v-card-subtitle>
               
               <v-card-text>
@@ -97,6 +97,7 @@ export default {
         AppDB.ref("posts")
         .push()
         .set({
+          userId: AppAUTH.currentUser.uid,
           user: AppAUTH.currentUser.displayName,
           question: this.question
         });
@@ -104,10 +105,16 @@ export default {
       
     },
 
+    myQuestionID(questionUID) {
+      if(questionUID == AppAUTH.currentUser.uid)
+        return true;
+      else
+        return false;
+    },
+
     fbAddHandler(snapshot) {
       const item = snapshot.val();
       this.myQuestion.push({ ...item, mykey: snapshot.key });
-      this.myComment.push({...item, mykey: snapshot.key});
     },
     fbRemoveListener(snapshot) {
       /* snapshot.key will hold the key of the item being REMOVED */
