@@ -24,6 +24,9 @@
         </template>
 
         <v-list>
+          <v-list-item @click="goToDashboard" v-show="isLoggedIn === true">
+            <v-list-item-title>DashBoard</v-list-item-title>
+          </v-list-item>
           <v-list-item @click="goToProfile" v-show="isLoggedIn === true">
             <v-list-item-title>Profile</v-list-item-title>
           </v-list-item>
@@ -70,6 +73,9 @@ export default {
     },
     doSignUp() {
       this.$router.push('/signup');
+    },
+    goToDashboard() {
+      this.$router.push('/');
     }
     
   },

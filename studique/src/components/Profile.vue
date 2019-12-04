@@ -8,6 +8,10 @@
        Display Name: {{displayName}}<br/>
        Email: {{email}}<br/>
        
+       <v-row justify="end">
+         <v-text-field label="Change Display Name" v-model="updatedName"></v-text-field>
+              <v-btn v-on:click="changeName">Change Name</v-btn>
+            </v-row>
      </v-card-text>
     <div id="dashboard">
       <div id="tagColumn"></div>
@@ -88,17 +92,16 @@ export default {
       myComment: [],
       displayName: "",
       email: "",
-      lastLogin: 0
+      updatedName: ""
     };
   },
   methods: {
-    
+  
     loadProfile(){
         this.displayName = AppAUTH.currentUser.displayName;
         this.email = AppAUTH.currentUser.email;
-        this.lastLogin = this.convertTimeStamp(AppAUTH.currentUser.lastLogin);
     },
-    convertTimeStamp(timeStamp){
+   /*convertTimeStamp(timeStamp){
       const date = new Date(timeStamp*1000);
       const hours = timeStamp.getHours();
       const minutes = "0" + date.getMinutes();
@@ -106,11 +109,20 @@ export default {
       const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
       return formattedTime;
+    },*/
+    changeName(){
+      //alert(AppAUTH.currentUser);
+      if(confirm("Change Display Name?")){
+        AppAUTH.currentUser.updateProfile({
+          displayName: this.updatedName
+        })
+      }
+      this.loadProfile();
     },
-
     fbAddHandler(snapshot) {
       const item = snapshot.val();
       this.myQuestion.push({ ...item, mykey: snapshot.key });
+      this.loadProfile();
       
     },
     fbRemoveListener(snapshot) {
@@ -133,8 +145,6 @@ export default {
   mounted() {
     AppDB.ref("posts").on("child_added", this.fbAddHandler);
     AppDB.ref("posts").on("child_removed", this.fbRemoveListener);
-    this.loadProfile();
-    
     
   },
   beforeDestroy() {
