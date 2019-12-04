@@ -66,16 +66,16 @@ export default {
       });
     },
     doSignIn() {
-      this.$router.push( '/login');
+      this.$router.push( '/');
     },
     goToProfile() {
       this.$router.push( '/profile');
     },
     doSignUp() {
-      this.$router.push('/signup');
+      this.$router.push('/');
     },
     goToDashboard() {
-      this.$router.push('/');
+      this.$router.push('/dashboard');
     }
     
   },

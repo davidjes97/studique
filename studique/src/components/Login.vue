@@ -13,6 +13,16 @@
             </v-row>
           </v-container>
         </tab>
+        <tab title="Sign Up">
+          <v-text-field label="Your Full Name" v-model="userDisplayName"></v-text-field>
+          <v-text-field label="Your Email" v-model="signUpEmail"></v-text-field>
+          <v-text-field type="password" label="Password" v-model="signUpPassword"></v-text-field>
+          <v-container v-show="isLoggedIn === false">
+            <v-row justify="end">
+              <v-btn @click="doSignUp">SignUp</v-btn>
+            </v-row>
+          </v-container>
+        </tab>
       </tabs>
     </v-card>
   </div>
@@ -35,14 +45,35 @@ export default {
       signUpEmail: "",
       signUpPassword: "",
       userDisplayName: "",
+      throwAway: ""
     };
   },
   methods: {
+
+    doSignUp() {
+      if(this.signUpEmail != "" && this.signUpPassword != "" && this.userDisplayName != ""){
+        AppAUTH.createUserWithEmailAndPassword(this.signUpEmail, this.signUpPassword)
+        .then(u => {
+            var user = u.user;
+            user.updateProfile({
+                displayName: this.userDisplayName
+            });
+          this.$router.push('/dashboard');
+              
+        })
+        .catch(err => {
+          alert("Error " + err);
+        });
+      }
+      else{
+          alert("Fill in all fields!");
+      }
+    },
     doSignIn() {
       AppAUTH.signInWithEmailAndPassword(this.userEmail, this.userPassword)
         .then( u => {
-          alert("Logging in " +  u.userDisplayName);
-          this.$router.push('/' );
+          this.throwAway = u;
+          this.$router.push('/dashboard');
         })
         .catch(err => {
           alert("Error " + err);

@@ -13,12 +13,18 @@
               <v-btn v-on:click="changeName">Change Name</v-btn>
             </v-row>
      </v-card-text>
+     <v-divider></v-divider>
     <div id="dashboard">
       <div id="tagColumn"></div>
       <div>
         <div id="cards">
           <v-list-item v-for="(myQuestion,pos) in myQuestion.slice().reverse()" :key="pos">
-            <v-card v-if="myQuestionID(myQuestion.userId)" class="questionCard" outlined :elevation="3">
+            <v-card
+              v-if="myQuestionID(myQuestion.userId)"
+              class="questionCard"
+              outlined
+              :elevation="3"
+            >
               <v-card-subtitle id="username">
                 {{myQuestion.user}}
                 <v-btn
@@ -155,7 +161,7 @@ export default {
 </script>
 
 <style scoped>
-#askQuestion {
+ #askQuestion {
   display: grid;
   grid-template-columns: 6fr 1fr;
   grid-template-rows: 6fr 1fr;
@@ -192,11 +198,11 @@ export default {
 }
 
 #tagColumn {
-  background: lightgrey;
+  background: white;
 }
 
 #emptyColumn {
-  background: lightgrey;
+  background:white;
 }
 
 #question {
@@ -234,5 +240,5 @@ export default {
   #deleteButton {
     justify-content: right;
   }
-}
+} 
 </style>
