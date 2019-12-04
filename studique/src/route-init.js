@@ -14,6 +14,9 @@ const routeTable = [
 
 const AppRouter = new VueRouter({ 
     routes: routeTable, 
-    mode: "history"
+    mode: "history",
+    base: process.env.NODE_ENV === "production"
+     ? "https://davidjes97.github.io/studique/"
+     : "/"
     });
 export { AppRouter };
