@@ -137,6 +137,8 @@ export default {
           user: AppAUTH.currentUser.displayName,
           comment: this.commentInput
         });
+
+        this.$router.go();
       } 
     }
   },
