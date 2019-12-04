@@ -1,6 +1,14 @@
 <template>
   <div id="userProfile">
-    <!-- <p>{{AppAUTH.currentUser.displayName}}</p> -->
+    <v-card class="profileCard" outlines :elevation="3">
+      <v-card-title >
+        Profile
+      </v-card-title>
+     <v-card-text>
+       Display Name: {{displayName}}<br/>
+       Email: {{email}}<br/>
+       
+     </v-card-text>
     <div id="dashboard">
       <div id="tagColumn"></div>
       <div>
@@ -64,6 +72,7 @@
       </div>
       <div id="emptyColumn"></div>
     </div>
+    </v-card>
   </div>
 </template>
 
@@ -76,25 +85,33 @@ export default {
       question: "",
       commentInput: "",
       myQuestion: [],
-      myComment: []
+      myComment: [],
+      displayName: "",
+      email: "",
+      lastLogin: 0
     };
   },
   methods: {
-    askButton() {
-      if (this.question != "") {
-        AppDB.ref("posts")
-          .push()
-          .set({
-            userId: AppAUTH.currentUser.uid,
-            user: AppAUTH.currentUser.displayName,
-            question: this.question
-          });
-      }
+    
+    loadProfile(){
+        this.displayName = AppAUTH.currentUser.displayName;
+        this.email = AppAUTH.currentUser.email;
+        this.lastLogin = this.convertTimeStamp(AppAUTH.currentUser.lastLogin);
+    },
+    convertTimeStamp(timeStamp){
+      const date = new Date(timeStamp*1000);
+      const hours = timeStamp.getHours();
+      const minutes = "0" + date.getMinutes();
+      const seconds = "0" + date.getSeconds();
+      const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+      return formattedTime;
     },
 
     fbAddHandler(snapshot) {
       const item = snapshot.val();
       this.myQuestion.push({ ...item, mykey: snapshot.key });
+      
     },
     fbRemoveListener(snapshot) {
       /* snapshot.key will hold the key of the item being REMOVED */
@@ -107,18 +124,7 @@ export default {
           .remove();
       }
     },
-    addComment(questionID) {
-      if (this.commentInput != "") {
-        AppDB.ref("posts")
-          .child(questionID)
-          .child("comments")
-          .push()
-          .set({
-            user: AppAUTH.currentUser.displayName,
-            comment: this.commentInput
-          });
-      }
-    },
+    
     myQuestionID(questionUID) {
       if (questionUID == AppAUTH.currentUser.uid) return true;
       else return false;
@@ -127,6 +133,9 @@ export default {
   mounted() {
     AppDB.ref("posts").on("child_added", this.fbAddHandler);
     AppDB.ref("posts").on("child_removed", this.fbRemoveListener);
+    this.loadProfile();
+    
+    
   },
   beforeDestroy() {
     AppDB.ref("posts").off("child_added", this.fbAddHandler);
