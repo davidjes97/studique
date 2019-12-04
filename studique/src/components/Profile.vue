@@ -1,52 +1,58 @@
 <template>
-  <div>
+  <div id="userProfile">
+    <v-card class="profileCard" outlines :elevation="3">
+      <v-card-title >
+        Profile
+      </v-card-title>
+     <v-card-text>
+       Display Name: {{displayName}}<br/>
+       Email: {{email}}<br/>
+       
+       <v-row justify="end">
+         <v-text-field label="Change Display Name" v-model="updatedName"></v-text-field>
+              <v-btn v-on:click="changeName">Change Name</v-btn>
+            </v-row>
+     </v-card-text>
+     <v-divider></v-divider>
     <div id="dashboard">
       <div id="tagColumn"></div>
       <div>
-        <div id="askForm">
-          <v-container fluid>
-            <v-textarea
-              label= "Ask A Question"
-              id ="questionTextArea"
-              v-model="question"
-              clearable
-              clear-icon="x"
-              auto-grow
-              rounded
-              outlined
-              rows="1"
-            ></v-textarea>
-          </v-container>
-          <v-btn color="primary" id="askButton" @click.native="askButton">Ask</v-btn>
-        </div>
-        <v-divider></v-divider>
         <div id="cards">
           <v-list-item v-for="(myQuestion,pos) in myQuestion.slice().reverse()" :key="pos">
-            <v-card class="questionCard" outlined :elevation="3">
-              <v-card-subtitle id="username">{{myQuestion.user}}
-                <v-btn v-if="myQuestionID(myQuestion.userId)" color="red" id="deleteButton" @click="deletePost(myQuestion.mykey)" small icon rounded right>X</v-btn>
+            <v-card
+              v-if="myQuestionID(myQuestion.userId)"
+              class="questionCard"
+              outlined
+              :elevation="3"
+            >
+              <v-card-subtitle id="username">
+                {{myQuestion.user}}
+                <v-btn
+                  v-if="myQuestionID(myQuestion.userId)"
+                  color="red"
+                  id="deleteButton"
+                  @click="deletePost(myQuestion.mykey)"
+                  small
+                  icon
+                  rounded
+                  right
+                >X</v-btn>
               </v-card-subtitle>
-              
+
               <v-card-text>
-                <div
-                  class="text--primary"
-                >{{myQuestion.question}}
-                </div>
-                
+                <div class="text--primary">{{myQuestion.question}}</div>
               </v-card-text>
-            
+
               <v-expansion-panels>
                 <v-expansion-panel>
                   <v-expansion-panel-header>Responses</v-expansion-panel-header>
                   <v-expansion-panel-content>
                     <v-list-item v-for="(myComment, pos) in myQuestion.comments" :key="pos">
                       <v-card id="commentCard">
-                      <v-card-subtitle id="commentUser">{{myComment.user}}</v-card-subtitle>
-                      <v-card-text>
-                        <div
-                          class="text--primary">
-                          {{myComment.comment}}</div>
-                      </v-card-text>
+                        <v-card-subtitle id="commentUser">{{myComment.user}}</v-card-subtitle>
+                        <v-card-text>
+                          <div class="text--primary">{{myComment.comment}}</div>
+                        </v-card-text>
                       </v-card>
                     </v-list-item>
                     <v-card-actions>
@@ -65,7 +71,7 @@
                           v-bind:id="myQuestion.mykey"
                         ></v-textarea>
                       </v-container>
-                      <v-btn color="primary"  @click="addComment(myQuestion.mykey)">Respond</v-btn>
+                      <v-btn color="primary" @click="addComment(myQuestion.mykey)">Respond</v-btn>
                     </v-card-actions>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -76,6 +82,7 @@
       </div>
       <div id="emptyColumn"></div>
     </div>
+    </v-card>
   </div>
 </template>
 
@@ -88,63 +95,63 @@ export default {
       question: "",
       commentInput: "",
       myQuestion: [],
-      myComment: []
+      myComment: [],
+      displayName: "",
+      email: "",
+      updatedName: ""
     };
   },
   methods: {
-    askButton() {
-      if(this.question != "") {
-        AppDB.ref("posts")
-        .push()
-        .set({
-          userId: AppAUTH.currentUser.uid,
-          user: AppAUTH.currentUser.displayName,
-          question: this.question
-        });
+  
+    loadProfile(){
+        this.displayName = AppAUTH.currentUser.displayName;
+        this.email = AppAUTH.currentUser.email;
+    },
+   /*convertTimeStamp(timeStamp){
+      const date = new Date(timeStamp*1000);
+      const hours = timeStamp.getHours();
+      const minutes = "0" + date.getMinutes();
+      const seconds = "0" + date.getSeconds();
+      const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+      return formattedTime;
+    },*/
+    changeName(){
+      //alert(AppAUTH.currentUser);
+      if(confirm("Change Display Name?")){
+        AppAUTH.currentUser.updateProfile({
+          displayName: this.updatedName
+        })
       }
-      
+      this.loadProfile();
     },
-
-    myQuestionID(questionUID) {
-      if(questionUID == AppAUTH.currentUser.uid)
-        return true;
-      else
-        return false;
-    },
-
     fbAddHandler(snapshot) {
       const item = snapshot.val();
       this.myQuestion.push({ ...item, mykey: snapshot.key });
+      this.loadProfile();
+      
     },
     fbRemoveListener(snapshot) {
       /* snapshot.key will hold the key of the item being REMOVED */
       this.myQuestion = this.myQuestion.filter(z => z.mykey != snapshot.key);
     },
     deletePost(questionKey) {
-      if(confirm("Remove this question?")){
+      if (confirm("Remove this question?")) {
         AppDB.ref("posts")
           .child(questionKey)
           .remove();
       }
     },
-    addComment(questionID) {
-      if(this.commentInput != ""){
-        AppDB.ref("posts")
-        .child(questionID)
-        .child("comments")
-        .push()
-        .set({
-          user: AppAUTH.currentUser.displayName,
-          comment: this.commentInput
-        });
-
-        this.$router.go();
-      } 
+    
+    myQuestionID(questionUID) {
+      if (questionUID == AppAUTH.currentUser.uid) return true;
+      else return false;
     }
   },
   mounted() {
     AppDB.ref("posts").on("child_added", this.fbAddHandler);
     AppDB.ref("posts").on("child_removed", this.fbRemoveListener);
+    
   },
   beforeDestroy() {
     AppDB.ref("posts").off("child_added", this.fbAddHandler);
@@ -154,7 +161,7 @@ export default {
 </script>
 
 <style scoped>
-#askQuestion {
+ #askQuestion {
   display: grid;
   grid-template-columns: 6fr 1fr;
   grid-template-rows: 6fr 1fr;
@@ -191,11 +198,11 @@ export default {
 }
 
 #tagColumn {
-  background: lightgrey;
+  background: white;
 }
 
 #emptyColumn {
-  background: lightgrey;
+  background:white;
 }
 
 #question {
@@ -223,7 +230,7 @@ export default {
     grid-template-rows: 1fr auto;
     border-bottom: 2px solid gray;
     padding: 5px;
-    position:sticky;
+    position: sticky;
     top: 0;
   }
   #dashboard {
@@ -233,5 +240,5 @@ export default {
   #deleteButton {
     justify-content: right;
   }
-}
+} 
 </style>

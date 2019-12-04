@@ -16,47 +16,74 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn @click="doSignOut" v-show="isLoggedIn === true">SignOut</v-btn>
+      <v-menu bottom left>
+        <template v-slot:activator="{ on }">
+          <v-btn dark icon v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item @click="goToDashboard" v-show="isLoggedIn === true">
+            <v-list-item-title>DashBoard</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="goToProfile" v-show="isLoggedIn === true">
+            <v-list-item-title>Profile</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="doSignOut" v-show="isLoggedIn === true">
+            <v-list-item-title>Sign Out</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="doSignIn" v-show="isLoggedIn === false">
+            <v-list-item-title>Login</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="doSignUp" v-show="isLoggedIn === false">
+            <v-list-item-title>Sign Up</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-content>
-
       <router-view/>
-
     </v-content>
     <v-footer>2019 studique</v-footer>
   </v-app>
 </template>
 
 <script>
-
 import { AppAUTH } from "./db-init.js";
-
 
 export default {
   name: "App",
 
-
   data: () => ({
-    isLoggedIn: false
-  }),
+    isLoggedIn: false  }),
 
   methods: {
-
     doSignOut() {
       AppAUTH.signOut().then(() => {
-        this.$router.push({ path: "/" });
+        this.$router.push('/' );
       });
+    },
+    doSignIn() {
+      this.$router.push( '/');
+    },
+    goToProfile() {
+      this.$router.push( '/profile');
+    },
+    doSignUp() {
+      this.$router.push('/');
+    },
+    goToDashboard() {
+      this.$router.push('/dashboard');
     }
+    
   },
   mounted() {
-    AppAUTH.onAuthStateChanged((u) => {
-
-        if(u == null) this.isLoggedIn = false;
-        else this.isLoggedIn = true;
-      });
+    AppAUTH.onAuthStateChanged(u => {
+      if (u == null) this.isLoggedIn = false;
+      else this.isLoggedIn = true;
+    });
   }
 };
 </script>
-
-
