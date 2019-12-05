@@ -1,13 +1,9 @@
 module.exports = {
-  
-    publicPath:
-    process.env.NODE_ENV === "production"
-    ? "https://davidjes97.github.io/studique/"
-    : "/"
-,
-  
-  
   "transpileDependencies": [
     "vuetify"
   ]
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> parent of 6873f743... Built
