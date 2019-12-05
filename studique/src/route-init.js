@@ -7,7 +7,7 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 /* Map path to component */
 const routeTable = [
- // { path: "/", redirect: "/login"},
+  { path: "/", redirect: "/login"},
   { path: "/login", component: Login },
   { path: "/profile", component: Profile },
   { path: "/dashboard", component: Dashboard }
@@ -17,7 +17,6 @@ const AppRouter = new VueRouter({
     routes: routeTable, 
     mode: "history",
     base: process.env.NODE_ENV === "production"
-      ? "https://studique-462e8.web.app/login"
-      : "/"
+      ? "/" : "/login"
     });
 export { AppRouter };
