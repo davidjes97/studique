@@ -58,7 +58,7 @@ export default {
             user.updateProfile({
                 displayName: this.userDisplayName
             });
-          this.$router.push('/dashboard');
+          this.$router.push('https://studique-462e8.web.app/dashboard');
               
         })
         .catch(err => {
@@ -73,7 +73,7 @@ export default {
       AppAUTH.signInWithEmailAndPassword(this.userEmail, this.userPassword)
         .then( u => {
           this.throwAway = u;
-          this.$router.push('/dashboard');
+          this.$router.push('https://studique-462e8.web.app/dashboard');
         })
         .catch(err => {
           alert("Error " + err);

@@ -47,7 +47,7 @@ export default {
             user.updateProfile({
                 displayName: this.userDisplayName
             });
-          this.$router.push('/');
+          this.$router.push('/login');
               
         })
         .catch(err => {

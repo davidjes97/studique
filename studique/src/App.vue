@@ -44,7 +44,7 @@
     </v-app-bar>
 
     <v-content>
-      <router-view/>
+      <router-view />
     </v-content>
     <v-footer>2019 studique</v-footer>
   </v-app>
@@ -52,27 +52,24 @@
 
 <script>
 import { AppAUTH } from "./db-init.js";
-
 export default {
   name: "App",
-
   data: () => ({
     isLoggedIn: false  }),
-
   methods: {
     doSignOut() {
       AppAUTH.signOut().then(() => {
-        this.$router.push('/' );
+        this.$router.push('/login' );
       });
     },
     doSignIn() {
-      this.$router.push( '/');
+      this.$router.push( '/login');
     },
     goToProfile() {
       this.$router.push( '/profile');
     },
     doSignUp() {
-      this.$router.push('/');
+      this.$router.push('/login');
     },
     goToDashboard() {
       this.$router.push('/dashboard');
